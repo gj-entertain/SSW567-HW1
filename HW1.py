@@ -1,20 +1,20 @@
 def classify_triangle(a, b, c):
-    # Check for invalid triangle
-    if a <= 0 or b <= 0 or c <= 0 or (a + b <= c) or (a + c <= b) or (b + c <= a):
-        return "NotATriangle"
+    # Sort the sides to simplify the logic
+    sides = sorted([a, b, c])
 
-    # Check for types of triangles
-    if a == b and b == c:
-        return "Equilateral"
-    elif a**2 + b**2 == c**2 or a**2 + c**2 == b**2 or b**2 + c**2 == a**2:
-        if a == b or b == c or a == c:
-            return "Isosceles and Right"
-        else:
-            return "Scalene and Right" # Bug: Should be checked before Isosceles and Right
-    elif a == b or b == c or a == c:
-        return "Isosceles"
+    # Validation of triangle inequality theorem
+    if sides[0] <= 0 or sides[0] + sides[1] <= sides[2]:
+        return "Not a valid triangle"
+
+    # Check for right triangle
+    is_right = (round(sides[0]**2, 6) + round(sides[1]**2, 6) == round(sides[2]**2, 6))
+    # Classification based on side lengths
+    if sides[0] == sides[2]:
+        return "Equilateral Triangle" + (" and Right Triangle" if is_right else "")
+    elif sides[0] == sides[1]:
+        return "Isosceles Triangle" + (" and Right Triangle" if is_right else "")
     else:
-        return "Scalene"
+        return "Scalene Triangle" + (" and Right Triangle" if is_right else "")
 
 # Example usage
-print(classify_triangle(3, 4, 5)) # Should return 'Scalene and Right'
+# classify_triangle(4, 4, 4 * (2 ** 0.5))  # Isosceles Right Triangle
